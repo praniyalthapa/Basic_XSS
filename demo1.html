@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn XSS its basic lab</title>
+</head>
+<body>
+    <h1 id="header">XSS lab</h1>
+    <p>We will be keep changing the security mechanism using php or node as comfort to show demonstration of how xss works.</p>
+    <script>
+        console.log("Welcome to the lab");
+        var demo = document.getElementById("header");
+        
+        // Use a string for the query parameter name
+        var demoURL = new URL(location).searchParams.get("test"); //payload works here like :<a href="javascript:alert('XSS')">Click me</a>
+        //<div onmouseover="alert('XSS')">Hover over me</div> 
+
+        if (!demoURL) {
+            demo.innerHTML = "XSS lab";
+        } else {
+            demo.innerHTML = demoURL;
+        }
+    </script>
+</body>
+</html>
